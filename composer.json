@@ -1,0 +1,13 @@
+{
+    "name": "b4n92uid/wp-push-notify",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "b4n92uid",
+            "email": "b4n92uid@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    }
+}
