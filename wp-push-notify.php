@@ -37,10 +37,12 @@ class WP_PushNotify
     $this->settings->init();
   }
 
-  public function inInCategories($postCategories)
+  public function isForMobile($postId)
   {
-    foreach ($postCategories as $c) {
-      if (in_array($c->term_id, $this->settings->postCategoriesId))
+    $tags = get_the_tags($postId);
+
+    foreach ($tags as $t) {
+      if (in_array($t->slug, $this->settings->mobileTags))
         return true;
     }
 
@@ -49,8 +51,6 @@ class WP_PushNotify
 
   public function errorNotice()
   {
-    var_dump('errorNotice');
-    die;
     include './include/error.php';
   }
 
@@ -69,9 +69,7 @@ class WP_PushNotify
       return;
     }
 
-    $categories = get_the_category($post_id);
-
-    if (!$this->inInCategories($categories)) {
+    if (!$this->isForMobile($post_id)) {
       return;
     }
 

@@ -1,1 +1,0 @@
-<input type="text" name="wppn_posts_categories_id" value="<?php echo join(',', $this->postCategoriesId) ?>">

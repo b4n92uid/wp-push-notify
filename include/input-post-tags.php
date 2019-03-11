@@ -1,0 +1,1 @@
+<input type="text" name="wppn_posts_mobile_tags" value="<?php echo join(',', $this->mobileTags) ?>">

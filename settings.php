@@ -3,7 +3,7 @@
 class Settings
 {
   public $fcmAccessKey;
-  public $postCategoriesId;
+  public $mobileTags;
   public $sendOnUpdate;
 
   /**
@@ -12,7 +12,7 @@ class Settings
   public function __construct()
   {
     $this->fcmAccessKey = get_option('wppn_fcm_access_key');
-    $this->postCategoriesId = explode(',', get_option('wppn_posts_categories_id'));
+    $this->mobileTags = explode(',', get_option('wppn_posts_mobile_tags'));
     $this->sendOnUpdate = get_option('wppn_send_on_update');
   }
 
@@ -20,7 +20,7 @@ class Settings
   {
     // register a new setting for "reading" page
     register_setting('general', 'wppn_fcm_access_key');
-    register_setting('general', 'wppn_posts_categories_id');
+    register_setting('general', 'wppn_posts_mobile_tags');
     register_setting('general', 'wppn_send_on_update');
 
     add_settings_section(
@@ -39,9 +39,9 @@ class Settings
     );
 
     add_settings_field(
-      'wppn_posts_categories_id',
-      'Post categories ids',
-      [$this, 'inputCategoriesId'],
+      'wppn_posts_mobile_tags',
+      'Post tags',
+      [$this, 'inputPostTags'],
       'general',
       'wppn_section'
     );
@@ -60,9 +60,9 @@ class Settings
     include 'include/input-fcm-access-key.php';
   }
 
-  public function inputCategoriesId()
+  public function inputPostTags()
   {
-    include 'include/input-categories-id.php';
+    include 'include/input-post-tags.php';
   }
 
   public function inputSendOnUpdate()
