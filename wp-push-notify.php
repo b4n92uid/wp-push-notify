@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: WP Push Notify
  * Description: Basic PUSH Notification to FCM on post save
@@ -27,7 +28,11 @@ class WP_PushNotify
   {
     $this->settings = new Settings;
 
-    add_action('save_post', [$this, 'send'], 10, 3);
+    if ($this->settings->sendOnUpdate) {
+      add_action('save_post', [$this, 'send'], 10, 1);
+    } else {
+      add_action('publish_post', [$this, 'send'], 10, 1);
+    }
 
     add_action('admin_menu', [$this, 'initAdminMenu']);
   }
@@ -54,32 +59,21 @@ class WP_PushNotify
     include './include/error.php';
   }
 
-  /**
-   * @param int $post_id
-   * @param WP_Post $post
-   * @param bool $update
-   */
-  public function send($post_id, $post, $update)
+  public function send($ID)
   {
-    if (!($update && $this->settings->sendOnUpdate)) {
+    if (!$this->isForMobile($ID)) {
       return;
     }
 
-    if ('post' !== $post->post_type) {
-      return;
-    }
-
-    if (!$this->isForMobile($post_id)) {
-      return;
-    }
+    $post = get_post($ID);
 
     $notification = [
       'title' => $post->post_title,
-      'body' => get_the_excerpt($post_id),
+      'body' => get_the_excerpt($ID),
     ];
 
     $data = [
-      "postId" => $post_id,
+      "postId" => $ID,
     ];
 
     $fcmNotification = [
@@ -95,7 +89,7 @@ class WP_PushNotify
 
     try {
       $client = new \GuzzleHttp\Client();
-      $res = $client->post(FCM_URL, [
+      $client->post(FCM_URL, [
         'headers' => $headers,
         'body' => json_encode($fcmNotification),
         'verify' => false

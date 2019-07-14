@@ -13,7 +13,7 @@ class Settings
   {
     $this->fcmAccessKey = get_option('wppn_fcm_access_key');
     $this->mobileTags = explode(',', get_option('wppn_posts_mobile_tags'));
-    $this->sendOnUpdate = get_option('wppn_send_on_update');
+    $this->sendOnUpdate = get_option('wppn_send_on_update') === 'on';
   }
 
   public function init()
