@@ -31,7 +31,7 @@ class WP_PushNotify
     if ($this->settings->sendOnUpdate) {
       add_action('save_post', [$this, 'send'], 10, 1);
     } else {
-      add_action('publish_post', [$this, 'send'], 10, 1);
+      add_action('draft_to_publish', [$this, 'send'], 10, 1);
     }
 
     add_action('admin_menu', [$this, 'initAdminMenu']);
