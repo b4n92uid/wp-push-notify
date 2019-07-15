@@ -2,6 +2,7 @@
 
 /**
  * Plugin Name: WP Push Notify
+ * Version: 1.1
  * Description: Basic PUSH Notification to FCM on post save
  * Author: BELDJOUHRI Abdelghani
  * Author URI: http://beldjouhri-abdelghani.com/
